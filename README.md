@@ -39,4 +39,19 @@ This system implements a sophisticated pipeline to authenticate users via webcam
 
 The authentication process follows a strict 4-step pipeline:
 
-1.  **Face Localization**: Passes input through `y
+1.  **Face Localization**: Passes input through `yolov8n.pt` to get bounding boxes.
+2.  **Preprocessing**: Crops, resizes to `160x160`, and normalizes the face.
+3.  **Embedding Generation**: Feeds the tensor into **InceptionResnetV1** to get a 512-d vector.
+4.  **Similarity Measurement**: Calculates **Euclidean distance**.
+    * **Distance < 0.9**: Match Found → Access Granted ✅
+    * **Distance > 0.9**: No Match → Access Denied 🚫
+
+---
+
+## 🚀 Local Installation (Optional)
+
+If you prefer to run this locally instead of Colab, follow these steps:
+
+### 1. Install Dependencies
+```bash
+pip install ultralytics facenet-pytorch pillow-heif torch torchvision opencv-python
